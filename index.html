@@ -15,7 +15,28 @@
   <hr/>
 
   <h2><a href="./public/movie-ranking.html">I currently made PowerBi for my visualisation! Check this out</a></h2>
-  <iframe title="Panola" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiY2ExODVlODMtMTlmZC00NDdlLWE4MjItNmU5MWE3ODI2NGRjIiwidCI6ImVkNmZiMzY2LTgzMjItNDZmMy05MTVlLWM0ZDAzN2E0NTRhOSIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+  <style>
+    .iframe-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    }
+
+    .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+</style>
+
+<div class="iframe-container">
+    <iframe title="Panola" src="https://app.powerbi.com/view?r=eyJrIjoiY2ExODVlODMtMTlmZC00NDdlLWE4MjItNmU5MWE3ODI2NGRjIiwidCI6ImVkNmZiMzY2LTgzMjItNDZmMy05MTVlLWM0ZDAzN2E0NTRhOSIsImMiOjEwfQ%3D%3D" allowFullScreen="true"></iframe>
+</div>
+
 
   <script>
     document.addEventListener("keydown", function(event) {
