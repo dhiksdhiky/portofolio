@@ -1,50 +1,169 @@
-<!-- TODO 1: Create the HTML Boilerplate -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portofolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Civil Servant | PKN STAN Student | Tech Enthusiast</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <h1>Dhika Rahim's Portofolio</h1>
+    <header id="header">
+        <nav id="navbar">
+            <a href="#hero" class="nav-logo">Your Name</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Journey</a></li> <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
 
-  <h2>I'm a Web Developer Wannabe</h2>
+    <main>
+        <section id="hero" class="section full-height">
+            <div class="hero-content animate-on-load fade-in-delay"> <h1>Hi, I'm <span class="highlight">Your Name</span></h1>
+                <p class="subtitle">Civil Servant at Directorate General of Taxes<br>PKN STAN Student | Exploring Code & Data</p>
+                <a href="#projects" class="cta-button">Explore My Journey</a>
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/dhikarahim" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/dhiksdhiky" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a> </div>
+            </div>
+            <a href="#about" class="scroll-down-arrow" aria-label="Scroll down">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </section>
 
-  <hr/>
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="animate-on-scroll fade-in">About Me</h2>
+                <div class="about-content">
+                    <div class="about-image animate-on-scroll slide-in-left">
+                        <img src="images/profile-pic.jpg" alt="Your Name">
+                    </div>
+                    <div class="about-text animate-on-scroll slide-in-right">
+                        <p>Hello! I'm currently serving at the <strong>Directorate General of Taxes (DGT)</strong>, Indonesia, while also pursuing further education at <strong>Politeknik Keuangan Negara STAN (PKN STAN)</strong>. My professional journey began with four rewarding years gaining diverse experience in customer service, IT support, and providing secretarial assistance for an Echelon III official within the public sector.</p>
+                        <p>Driven by a curiosity for technology's potential to improve processes and generate insights, I am actively diving into the world of <strong>coding (HTML, CSS, JavaScript)</strong> and enhancing my skills in <strong>data analysis</strong>. I'm proficient with Microsoft Office applications, particularly Excel for data manipulation, and I'm learning to create compelling visualizations with Power BI.</p>
+                        <p>I'm passionate about merging my public administration background with emerging technical skills to contribute innovative solutions and drive efficiency. I'm always eager to learn and collaborate.</p>
+                        <a href="#contact" class="cta-button secondary">Get In Touch</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <h2><a href="">I currently made PowerBi for my visualisation! Check this out</a></h2>
-  <style>
-    .iframe-container {
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    }
+        <section id="projects" class="section grey-bg">
+            <div class="container">
+                 <h2 class="animate-on-scroll fade-in">Projects & Learning Journey</h2>
+                <div class="project-grid">
+                    <div class="project-card animate-on-scroll zoom-in" style="animation-delay: 0.1s;">
+                        <img src="images/panolaboard.jpg" alt="Data Visualization Project">
+                        <div class="project-info">
+                            <h3>Data Visualization: [Panola Board: Aplikasi Kepatuhan Berbasis Wilayah]</h3>
+                            <p>Leveraged <strong>Power BI</strong> to analyze tax payer compliance by area and create interactive dashboards visualizing key trends and patterns related to compliance rates by sector and area. Focused on clear visual storytelling.</p>
+                            <div class="project-links">
+                                <span class="project-tech">Tech: Power BI</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card animate-on-scroll zoom-in" style="animation-delay: 0.2s;">
+                         <img src="images/excelspt.jpg" alt="Excel Project">
+                        <div class="project-info">
+                             <h3>Excel Expertise: [Aplikasi Automatisasi SPT 1770 EFORM]</h3>
+                            <p>Developed advanced <strong>MS Excel</strong> solutions, utilizing complex formulas and VBA to automate inputing and processing of SPT 1770 EFORM, significantly reducing manual effort and improving accuracy.</p>
+                             <div class="project-links">
+                                <span class="project-tech">Tech: MS Excel</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card animate-on-scroll zoom-in" style="animation-delay: 0.3s;">
+                         <img src="images/portofolio.jpg" alt="Coding Learning Project">
+                        <div class="project-info">
+                             <h3>Coding Practice: Personal Portfolio</h3>
+                            <p>Built this personal portfolio website from scratch as a practical learning exercise in front-end development. Applied fundamental concepts of <strong>HTML, CSS, and JavaScript</strong>, including responsive design and basic DOM manipulation.</p>
+                             <div class="project-links">
+                                <a href="https://github.com/dhikarahim" target="_blank" class="project-button github"><i class="fab fa-github"></i> Code</a>
+                                 <span class="project-tech">Tech: HTML, CSS, JS</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                 <p class="learning-note animate-on-scroll fade-in">Continuously learning and exploring ways to apply technical skills effectively.</p>
+            </div>
+        </section>
 
-    .iframe-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
-    }
-</style>
+        <section id="skills" class="section">
+            <div class="container">
+                 <h2 class="animate-on-scroll fade-in">Skills & Competencies</h2>
+                <h3 class="skills-subtitle animate-on-scroll fade-in">Technical Skills</h3>
+                <div class="skills-grid">
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.1s;"><i class="fas fa-file-excel"></i> MS Excel (Expert)</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.15s;"><i class="fas fa-chart-bar"></i> Power BI (Intermediate)</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.2s;"><i class="fas fa-search-dollar"></i> Data Analysis (Basic)</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.25s;"><i class="fab fa-html5"></i> HTML5 (Learning)</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.3s;"><i class="fab fa-css3-alt"></i> CSS3 (Learning)</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.35s;"><i class="fab fa-js-square"></i> JavaScript (Learning)</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.4s;"><i class="fas fa-laptop-code"></i> IT Support (Basic)</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.45s;"><i class="fab fa-git-alt"></i> Git (Learning)</div>
+                </div>
 
-<div class="iframe-container">
-    <iframe title="Panola" src="https://app.powerbi.com/view?r=eyJrIjoiY2ExODVlODMtMTlmZC00NDdlLWE4MjItNmU5MWE3ODI2NGRjIiwidCI6ImVkNmZiMzY2LTgzMjItNDZmMy05MTVlLWM0ZDAzN2E0NTRhOSIsImMiOjEwfQ%3D%3D" allowFullScreen="true"></iframe>
-</div>
+                <h3 class="skills-subtitle animate-on-scroll fade-in" style="margin-top: 3rem;">Professional & Domain Skills</h3>
+                 <div class="skills-grid">
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.5s;"><i class="fas fa-landmark"></i> Public Administration</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.55s;"><i class="fas fa-concierge-bell"></i> Service Orientation</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.6s;"><i class="fas fa-file-alt"></i> Secretarial Support</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.65s;"><i class="fas fa-comments"></i> Communication</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.7s;"><i class="fas fa-lightbulb"></i> Problem Solving</div>
+                    <div class="skill-item animate-on-scroll zoom-in" style="animation-delay: 0.75s;"><i class="fas fa-users"></i> Teamwork</div>
+                </div>
+            </div>
+        </section>
 
+        <section id="contact" class="section grey-bg">
+            <div class="container">
+                 <h2 class="animate-on-scroll fade-in">Get In Touch</h2>
+                 <p class="animate-on-scroll fade-in">Interested in connecting or discussing potential opportunities? Feel free to reach out!</p>
+        
+                 <form id="contact-form"
+                       action="https://formspree.io/f/xblgqyzz"  <-- PASTE YOUR URL HERE
+                       method="POST"
+                       class="animate-on-scroll fade-in">
+        
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="cta-button">Send Message</button>
+                 </form>
+        
+                 <p class="contact-alternative animate-on-scroll fade-in">Or email me directly at: <a href="mailto:dhikarahim2@gmail.com">dhikarahim2@gmail.com</a></p>
+            </div>
+        </section>
+    </main>
 
-  <script>
-    document.addEventListener("keydown", function(event) {
-        if (event.keyCode === 8) { // Backspace key
-            history.back();
-        }
-    });
-  </script>
-   
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-social-links">
+                 <a href="https://linkedin.com/in/dhikarahim" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                 <a href="https://github.com/dhiksdhiky" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+            <p>&copy; <span id="current-year"></span> Dhika Rahim. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="#header" id="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
