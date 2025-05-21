@@ -64,6 +64,7 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
+    border-radius: var(--border-radius); /* Rounded corners for all images */
 }
 
 ul { list-style: none; }
@@ -243,6 +244,8 @@ ul { list-style: none; }
     letter-spacing: 1px;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 10px rgba(98, 0, 234, 0.3); /* Subtle shadow matching primary color */
+    border: none; /* Pastikan tidak ada border default */
+    cursor: pointer;
 }
 
 .cta-button:hover {
@@ -342,6 +345,7 @@ ul { list-style: none; }
     margin-top: auto; /* Pushes links to the bottom */
     display: flex;
     gap: 1rem;
+    align-items: center; /* Align items vertically */
 }
 
 .project-button {
@@ -412,11 +416,24 @@ ul { list-style: none; }
     color: var(--on-primary);
 }
 
-/* --- Contact Section --- */
-#contact-form {
+/* --- Contact Section & AI Generator Form Styling --- */
+#contact-form, #ai-generator-form { /* Apply to both forms */
     max-width: 700px;
     margin: 2rem auto 1rem auto; /* Center form */
+    background-color: var(--surface-color); /* Add a subtle background to the form area */
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
 }
+
+/* Specific for AI generator if different background */
+#ai-project-generator #ai-generator-form {
+    background-color: transparent; /* Keep AI form background transparent if section is grey */
+    box-shadow: none;
+    padding: 0; /* Remove padding if no distinct background */
+    margin-top: 1rem;
+}
+
 
 .form-group {
     margin-bottom: 1.5rem;
@@ -447,11 +464,15 @@ ul { list-style: none; }
     box-shadow: 0 0 0 3px rgba(98, 0, 234, 0.2);
 }
 
-#contact-form button {
-    width: 100%;
-    padding: 15px;
-    font-size: 1.1rem;
+#contact-form button, 
+#ai-generator-form button { /* Apply to buttons in both forms */
+    width: auto; /* Adjust width for AI button or make it 100% if preferred */
+    padding: 12px 30px; /* Consistent padding with other cta-buttons */
+    font-size: 1rem; /* Consistent font size */
+    display: block; /* Make button block to center it with margin auto */
+    margin: 1rem auto 0 auto; /* Center button */
 }
+
 
 .contact-alternative {
     text-align: center;
@@ -461,6 +482,35 @@ ul { list-style: none; }
 }
 .contact-alternative a {
     font-weight: 600;
+}
+
+/* --- AI Project Generator Result Styling --- */
+#ai-idea-result {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: left; /* Default text alignment */
+}
+
+#ai-idea-result h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+}
+
+#ai-idea-result p {
+    color: var(--on-surface);
+    line-height: 1.7;
+}
+
+#ai-loading-indicator i {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+#ai-loading-indicator p {
+    font-style: italic;
+    color: var(--dark-grey);
 }
 
 /* --- Footer --- */
@@ -534,6 +584,10 @@ ul { list-style: none; }
     .about-image { margin-bottom: 2rem; flex-basis: auto; }
     .about-text { flex-basis: auto; }
     .about-image img { max-width: 250px; }
+
+    #contact-form, #ai-generator-form { /* Apply to both forms */
+        padding: 1.5rem;
+    }
 }
 
 /* Small devices (landscape phones, less than 768px) */
@@ -585,6 +639,14 @@ ul { list-style: none; }
     .skills-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem;}
     .skill-item { padding: 1rem 0.5rem; }
     .skill-item i { font-size: 2rem; }
+
+    #contact-form, #ai-generator-form { /* Apply to both forms */
+        padding: 1rem;
+    }
+    #contact-form button, 
+    #ai-generator-form button {
+        width: 100%; /* Full width button on smaller screens */
+    }
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -595,7 +657,9 @@ ul { list-style: none; }
     .social-links a { font-size: 1.5rem; margin: 0 10px; }
     .about-image img { max-width: 200px; }
     .project-button { font-size: 0.8rem; padding: 6px 12px; }
-    #contact-form { padding: 0 10px; }
+    #contact-form { padding: 0 10px; } /* Remove padding for contact form specifically if needed */
+    #ai-generator-form { padding: 1rem 0; } /* Adjust padding for AI form */
+
 }
 
 /* --- Additions for Your Specific Content & Animations --- */
@@ -604,11 +668,11 @@ ul { list-style: none; }
 .project-tech {
     font-size: 0.8rem;
     color: var(--light-grey);
-    margin-top: auto; /* Push to bottom if needed */
-    display: block;
-    padding-top: 10px; /* Add some space above */
+    margin-left: auto; /* Push to the right */
+    padding-top: 0;
     text-align: right;
 }
+
 
 /* Note below projects */
 .learning-note {
@@ -702,4 +766,12 @@ ul { list-style: none; }
 .project-card img[src*="placeholder"]::after {
     content: attr(alt); /* Show alt text */
     padding: 10px;
+}
+
+/* Form status message styling */
+.form-status-message {
+    text-align: center;
+    margin-top: 1rem;
+    min-height: 1.2em; /* Mencegah pergeseran tata letak */
+    font-weight: 500;
 }
