@@ -2,22 +2,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- DOM Element Selectors ---
     const header = document.getElementById('header');
-    const navbar = document.getElementById('navbar'); // Although not directly used in JS logic here, good practice to have if needed later
     const navLinksContainer = document.querySelector('.nav-links');
     const navLinks = document.querySelectorAll('.nav-links a');
     const hamburger = document.getElementById('hamburger');
-    const sections = document.querySelectorAll('section[id]'); // Select sections that have an ID attribute
+    const sections = document.querySelectorAll('section[id]');
     const backToTopButton = document.getElementById('back-to-top');
     const currentYearSpan = document.getElementById('current-year');
-    const contactForm = document.getElementById('contact-form'); // Specific selector for the contact form
-    const animatedElements = document.querySelectorAll('.animate-on-scroll'); // Elements to animate on scroll
+    const contactForm = document.getElementById('contact-form');
+    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+    // AI Feature Elements
+    const generateIdeaButton = document.getElementById('generate-idea-button');
+    const aiInterestInput = document.getElementById('ai-interest');
+    const aiGeneratedIdeaDiv = document.getElementById('ai-generated-idea');
+    const aiIdeaTextElement = document.getElementById('ai-idea-text');
+    const aiLoadingIndicator = document.getElementById('ai-loading-indicator');
+    const aiErrorMessage = document.getElementById('ai-error-message');
 
     // --- State Variables ---
-    const headerHeight = header ? header.offsetHeight : 70; // Get header height, provide default if header missing
+    const headerHeight = header ? header.offsetHeight : 70;
 
     // --- Scroll Handling Function ---
     function handleScroll() {
-        // Sticky Header Logic
         if (header) {
             if (window.scrollY > headerHeight) {
                 header.classList.add('scrolled');
@@ -26,20 +32,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Back to Top Button Visibility
         if (backToTopButton) {
-            if (window.scrollY > 300) { // Show after scrolling down 300px
+            if (window.scrollY > 300) {
                  backToTopButton.classList.add('visible');
             } else {
                  backToTopButton.classList.remove('visible');
             }
         }
 
-        // Active Navigation Link Highlighting
         let currentSectionId = '';
         sections.forEach(section => {
-            // Calculate section boundaries considering the fixed header height
-            // Adjust the offset (-100) as needed for better accuracy
             const sectionTop = section.offsetTop - headerHeight - 100;
             const sectionBottom = sectionTop + section.offsetHeight;
 
@@ -48,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
              }
         });
 
-        // Handle case where user scrolls past the last section but not quite to the bottom
          if (currentSectionId === '' && window.scrollY >= (document.documentElement.scrollHeight - window.innerHeight - headerHeight - 100)) {
             const lastSection = sections[sections.length - 1];
              if(lastSection) {
@@ -56,20 +57,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
          }
 
-
-        // Update 'active' class on nav links
         navLinks.forEach(link => {
             link.classList.remove('active');
-            // Check if the link's href matches the current section ID (removing the '#')
             if (link.getAttribute('href') && link.getAttribute('href').slice(1) === currentSectionId) {
                 link.classList.add('active');
             }
         });
     }
 
-    // Attach scroll listener
     window.addEventListener('scroll', handleScroll);
-    // Run once on load to set initial states
     handleScroll();
 
     // --- Hamburger Menu Toggle ---
@@ -78,13 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
             navLinksContainer.classList.toggle('active');
             const icon = hamburger.querySelector('i');
             if (icon) {
-                if (navLinksContainer.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times'); // Change to 'X' icon
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars'); // Change back to 'bars' icon
-                }
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
             }
         });
     }
@@ -95,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', () => {
                 if (navLinksContainer.classList.contains('active')) {
                     navLinksContainer.classList.remove('active');
-                    // Reset hamburger icon if it exists
                     const icon = hamburger ? hamburger.querySelector('i') : null;
                     if (icon) {
                         icon.classList.remove('fa-times');
@@ -113,94 +103,130 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Intersection Observer for Scroll Animations ---
     if (animatedElements.length > 0 && "IntersectionObserver" in window) {
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver((entries, observerInstance) => {
             entries.forEach(entry => {
-                // When element enters viewport
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // Stop observing once the animation is triggered
+                    observerInstance.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.1 // Trigger when 10% of the element is visible
-            // rootMargin: '0px 0px -50px 0px' // Optional: Adjust when the trigger happens (e.g., 50px before it enters)
-        });
-
-        // Observe each element marked for animation
-        animatedElements.forEach(el => {
-            observer.observe(el);
-        });
+        }, { threshold: 0.1 });
+        animatedElements.forEach(el => observer.observe(el));
     } else {
-        // Fallback for older browsers or if no elements to animate: show them immediately
-        animatedElements.forEach(el => {
-            el.classList.add('is-visible');
-        });
+        animatedElements.forEach(el => el.classList.add('is-visible'));
     }
 
     // --- AJAX Form Submission for Contact Form ---
     if (contactForm) {
-        // Check if a status message element already exists, if not create one.
         let statusMessage = contactForm.parentNode.querySelector('.form-status-message');
         if (!statusMessage) {
             statusMessage = document.createElement('p');
-            statusMessage.className = 'form-status-message'; // Add a class for potential styling
-            statusMessage.style.textAlign = 'center';
-            statusMessage.style.marginTop = '1rem';
-            statusMessage.style.minHeight = '1.2em'; // Prevent layout shift
-            contactForm.parentNode.insertBefore(statusMessage, contactForm.nextSibling); // Insert message area after the form
+            statusMessage.className = 'form-status-message';
+            contactForm.parentNode.insertBefore(statusMessage, contactForm.nextSibling);
         }
-        statusMessage.textContent = ''; // Ensure it's initially empty
+        statusMessage.textContent = '';
 
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default browser submission
-
+            e.preventDefault();
             const form = e.target;
             const data = new FormData(form);
+            statusMessage.textContent = 'Mengirim...';
+            statusMessage.style.color = '#555';
 
-            // Display sending message
-            statusMessage.textContent = 'Sending...';
-            statusMessage.style.color = '#555'; // Neutral color
-
-            fetch(form.action, { // Post data to the URL specified in the form's 'action' attribute
+            fetch(form.action, {
                 method: form.method,
                 body: data,
-                headers: {
-                    'Accept': 'application/json' // Tell Formspree we expect a JSON response
-                }
+                headers: { 'Accept': 'application/json' }
             }).then(response => {
                 if (response.ok) {
-                    // Success
-                    statusMessage.textContent = "Message sent successfully! Thank you.";
+                    statusMessage.textContent = "Pesan berhasil terkirim! Terima kasih.";
                     statusMessage.style.color = 'green';
-                    form.reset(); // Clear the form fields
+                    form.reset();
                 } else {
-                    // Handle HTTP errors (like 4xx, 5xx)
-                    response.json().then(data => { // Try to parse error details from Formspree
-                        if (Object.hasOwn(data, 'errors')) {
-                            // Display specific Formspree errors
-                            statusMessage.textContent = data["errors"].map(error => error["message"]).join(", ");
-                        } else {
-                            // Generic error message if parsing fails or no specific errors given
-                            statusMessage.textContent = "Oops! There was a problem submitting the form. Please check your input or try again later.";
-                        }
+                    response.json().then(errorData => {
+                        statusMessage.textContent = (errorData.errors ? errorData.errors.map(err => err.message).join(", ") : "Oops! Ada masalah saat mengirim formulir.");
                         statusMessage.style.color = 'red';
                     }).catch(() => {
-                        // Fallback if response is not JSON or another error occurs during parsing
-                         statusMessage.textContent = "Oops! An unexpected error occurred. Please try again later.";
+                         statusMessage.textContent = "Oops! Terjadi kesalahan tak terduga.";
                          statusMessage.style.color = 'red';
                     });
                 }
-            }).catch(error => {
-                // Handle network errors (fetch promise rejected)
-                console.error("Form submission error:", error); // Log error for debugging
-                statusMessage.textContent = "Oops! There seems to be a network issue. Please check your connection and try again.";
+            }).catch(() => {
+                statusMessage.textContent = "Oops! Sepertinya ada masalah jaringan.";
                 statusMessage.style.color = 'red';
             });
+            setTimeout(() => { statusMessage.textContent = ''; }, 7000);
+        });
+    }
 
-            // Optional: Remove the status message after a few seconds
-            setTimeout(() => {
-                 statusMessage.textContent = ''; // Clear the message
-            }, 7000); // Remove after 7 seconds
+    // --- AI Project Idea Generator ---
+    if (generateIdeaButton && aiInterestInput && aiGeneratedIdeaDiv && aiIdeaTextElement && aiLoadingIndicator && aiErrorMessage) {
+        generateIdeaButton.addEventListener('click', async () => {
+            const interest = aiInterestInput.value.trim();
+            if (!interest) {
+                aiErrorMessage.textContent = "Silakan masukkan bidang minat Anda.";
+                aiErrorMessage.style.display = 'block';
+                aiGeneratedIdeaDiv.style.display = 'none';
+                aiLoadingIndicator.style.display = 'none';
+                return;
+            }
+
+            // Reset UI
+            aiLoadingIndicator.style.display = 'block';
+            aiGeneratedIdeaDiv.style.display = 'none';
+            aiErrorMessage.style.display = 'none';
+            aiIdeaTextElement.innerHTML = ''; // Use innerHTML if the response might contain simple HTML like line breaks
+
+            // Construct the prompt for the AI
+            const prompt = `Sebagai seorang ahli dalam pengembangan karir dan inovasi proyek, berikan satu ide proyek yang unik dan praktis untuk seseorang yang tertarik pada bidang "${interest}". Ide proyek ini harus cocok untuk portofolio dan dapat menunjukkan keterampilan praktis. Sertakan judul proyek yang menarik dan deskripsi singkat (2-4 kalimat). Format respons sebagai berikut:\n\n**Judul Proyek:** [Judul di sini]\n**Deskripsi:** [Deskripsi di sini]`;
+
+            try {
+                // Prepare payload for Gemini API
+                let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = { contents: chatHistory };
+                const apiKey = "AIzaSyCR8gjeOWmAuOa-xwzTJieg28yxPg1e9Qg"; // API key will be injected by the environment if needed
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("API Error:", errorData);
+                    throw new Error(`API request failed with status ${response.status}.`);
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    
+                    let generatedText = result.candidates[0].content.parts[0].text;
+                    
+                    // Simple formatting for display (replace newlines with <br>)
+                    generatedText = generatedText.replace(/\n/g, '<br>');
+                    // Make "**Judul Proyek:**" and "**Deskripsi:**" bold
+                    generatedText = generatedText.replace(/\*\*(.*?):\*\*/g, '<strong>$1:</strong>');
+
+
+                    aiIdeaTextElement.innerHTML = generatedText; // Use innerHTML to render <br> and <strong>
+                    aiGeneratedIdeaDiv.style.display = 'block';
+                } else {
+                    console.error("Unexpected API response structure:", result);
+                    throw new Error("Tidak ada konten yang dihasilkan atau format respons tidak terduga.");
+                }
+
+            } catch (error) {
+                console.error("Error generating project idea:", error);
+                aiErrorMessage.textContent = `Maaf, terjadi kesalahan saat menghubungi AI: ${error.message}. Silakan coba lagi nanti.`;
+                aiErrorMessage.style.display = 'block';
+            } finally {
+                aiLoadingIndicator.style.display = 'none';
+            }
         });
     }
 
