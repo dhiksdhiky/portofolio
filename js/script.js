@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Prepare payload for Gemini API
                 let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyCR8gjeOWmAuOa-xwzTJieg28yxPg1e9Qg"; // API key will be injected by the environment if needed
+                const apiKey = os.environ.get("GEMINI_API_KEY"); // API key will be injected by the environment if needed
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -231,3 +231,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 }); // End of DOMContentLoaded
+
