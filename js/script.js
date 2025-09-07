@@ -175,54 +175,29 @@ document.addEventListener('DOMContentLoaded', function() {
             aiLoadingIndicator.style.display = 'block';
             aiGeneratedIdeaDiv.style.display = 'none';
             aiErrorMessage.style.display = 'none';
-            aiIdeaTextElement.innerHTML = ''; // Use innerHTML if the response might contain simple HTML like line breaks
+            aiIdeaTextElement.innerHTML = ''; 
 
-            // Construct the prompt for the AI
-            const prompt = `Sebagai seorang ahli dalam pengembangan karir dan inovasi proyek, berikan satu ide proyek yang unik dan praktis untuk seseorang yang tertarik pada bidang "${interest}". Ide proyek ini harus cocok untuk portofolio dan dapat menunjukkan keterampilan praktis. Sertakan judul proyek yang menarik dan deskripsi singkat (2-4 kalimat). Format respons sebagai berikut:\n\n**Judul Proyek:** [Judul di sini]\n**Deskripsi:** [Deskripsi di sini]`;
-
+            // =================================================================
+            // CATATAN PENTING:
+            // Kode di bawah ini adalah placeholder. Panggilan API yang sebenarnya
+            // harus dibuat dari lingkungan sisi server (backend) untuk menjaga
+            // keamanan Kunci API Anda. Jangan pernah mengekspos Kunci API
+            // Anda di kode sisi klien.
+            // =================================================================
+            
             try {
-                // Prepare payload for Gemini API
-                let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-                const payload = { contents: chatHistory };
-                const apiKey = process.env.GEMINI_API_KEY; // API key will be injected by the environment if needed
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                // Simulasi penundaan jaringan
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Contoh respons tiruan
+                let generatedText = `**Judul Proyek:** Analisis Sentimen Kebijakan Pajak di Media Sosial<br>**Deskripsi:** Membangun alat analisis data yang melacak dan menganalisis sentimen publik terhadap kebijakan pajak baru di platform seperti Twitter. Proyek ini akan menggunakan pemrosesan bahasa alami (NLP) untuk mengkategorikan opini dan memvisualisasikan hasilnya.`;
 
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error("API Error:", errorData);
-                    throw new Error(`API request failed with status ${response.status}.`);
-                }
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    
-                    let generatedText = result.candidates[0].content.parts[0].text;
-                    
-                    // Simple formatting for display (replace newlines with <br>)
-                    generatedText = generatedText.replace(/\n/g, '<br>');
-                    // Make "**Judul Proyek:**" and "**Deskripsi:**" bold
-                    generatedText = generatedText.replace(/\*\*(.*?):\*\*/g, '<strong>$1:</strong>');
-
-
-                    aiIdeaTextElement.innerHTML = generatedText; // Use innerHTML to render <br> and <strong>
-                    aiGeneratedIdeaDiv.style.display = 'block';
-                } else {
-                    console.error("Unexpected API response structure:", result);
-                    throw new Error("Tidak ada konten yang dihasilkan atau format respons tidak terduga.");
-                }
+                aiIdeaTextElement.innerHTML = generatedText;
+                aiGeneratedIdeaDiv.style.display = 'block';
 
             } catch (error) {
                 console.error("Error generating project idea:", error);
-                aiErrorMessage.textContent = `Maaf, terjadi kesalahan saat menghubungi AI: ${error.message}. Silakan coba lagi nanti.`;
+                aiErrorMessage.textContent = `Maaf, terjadi kesalahan saat menghubungi AI. Fitur ini memerlukan implementasi backend untuk berfungsi.`;
                 aiErrorMessage.style.display = 'block';
             } finally {
                 aiLoadingIndicator.style.display = 'none';
@@ -231,6 +206,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 }); // End of DOMContentLoaded
-
-
-
