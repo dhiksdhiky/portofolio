@@ -11,14 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contact-form');
     const animatedElements = document.querySelectorAll('.animate-on-scroll');
 
-    // AI Feature Elements
-    const generateIdeaButton = document.getElementById('generate-idea-button');
-    const aiInterestInput = document.getElementById('ai-interest');
-    const aiGeneratedIdeaDiv = document.getElementById('ai-generated-idea');
-    const aiIdeaTextElement = document.getElementById('ai-idea-text');
-    const aiLoadingIndicator = document.getElementById('ai-loading-indicator');
-    const aiErrorMessage = document.getElementById('ai-error-message');
-
     // --- State Variables ---
     const headerHeight = header ? header.offsetHeight : 70;
 
@@ -159,80 +151,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- AI Project Idea Generator ---
-    if (generateIdeaButton && aiInterestInput && aiGeneratedIdeaDiv && aiIdeaTextElement && aiLoadingIndicator && aiErrorMessage) {
-        generateIdeaButton.addEventListener('click', async () => {
-            const interest = aiInterestInput.value.trim();
-            if (!interest) {
-                aiErrorMessage.textContent = "Silakan masukkan bidang minat Anda.";
-                aiErrorMessage.style.display = 'block';
-                aiGeneratedIdeaDiv.style.display = 'none';
-                aiLoadingIndicator.style.display = 'none';
-                return;
-            }
-
-            // Reset UI
-            aiLoadingIndicator.style.display = 'block';
-            aiGeneratedIdeaDiv.style.display = 'none';
-            aiErrorMessage.style.display = 'none';
-            aiIdeaTextElement.innerHTML = ''; // Use innerHTML if the response might contain simple HTML like line breaks
-
-            // Construct the prompt for the AI
-            const prompt = `Sebagai seorang ahli dalam pengembangan karir dan inovasi proyek, berikan satu ide proyek yang unik dan praktis untuk seseorang yang tertarik pada bidang "${interest}". Ide proyek ini harus cocok untuk portofolio dan dapat menunjukkan keterampilan praktis. Sertakan judul proyek yang menarik dan deskripsi singkat (2-4 kalimat). Format respons sebagai berikut:\n\n**Judul Proyek:** [Judul di sini]\n**Deskripsi:** [Deskripsi di sini]`;
-
-            try {
-                // Prepare payload for Gemini API
-                let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-                const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyBub6hZ9eRTowtw8tcaLqGpNikvorZxm-0"; // API key will be injected by the environment if needed
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error("API Error:", errorData);
-                    throw new Error(`API request failed with status ${response.status}.`);
-                }
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    
-                    let generatedText = result.candidates[0].content.parts[0].text;
-                    
-                    // Simple formatting for display (replace newlines with <br>)
-                    generatedText = generatedText.replace(/\n/g, '<br>');
-                    // Make "**Judul Proyek:**" and "**Deskripsi:**" bold
-                    generatedText = generatedText.replace(/\*\*(.*?):\*\*/g, '<strong>$1:</strong>');
-
-
-                    aiIdeaTextElement.innerHTML = generatedText; // Use innerHTML to render <br> and <strong>
-                    aiGeneratedIdeaDiv.style.display = 'block';
-                } else {
-                    console.error("Unexpected API response structure:", result);
-                    throw new Error("Tidak ada konten yang dihasilkan atau format respons tidak terduga.");
-                }
-
-            } catch (error) {
-                console.error("Error generating project idea:", error);
-                aiErrorMessage.textContent = `Maaf, terjadi kesalahan saat menghubungi AI: ${error.message}. Silakan coba lagi nanti.`;
-                aiErrorMessage.style.display = 'block';
-            } finally {
-                aiLoadingIndicator.style.display = 'none';
-            }
-        });
-    }
-
 }); // End of DOMContentLoaded
-
-
-
-
-
